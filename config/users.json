@@ -1,0 +1,8 @@
+{
+  "users": {
+    "RipenWang": "运维",
+    "ProjectManager": "项目经理", 
+    "TechLead": "技术负责人",
+    "DevOpsLead": "运维负责人"
+  }
+}

@@ -1,0 +1,6 @@
+Flask==1.1.4
+jenkinsapi==0.3.13
+requests==2.25.1
+watchdog==2.1.9
+python-telegram-bot==12.8
+PyMySQL==1.0.2

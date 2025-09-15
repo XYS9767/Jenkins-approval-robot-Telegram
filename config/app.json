@@ -1,0 +1,165 @@
+{
+  "_comment": "Jenkins审批机器人 - 主配置文件",
+  "_version": "1.0.0",
+  "_last_updated": "2024-01-01",
+  "telegram": {
+    "_comment": "Telegram机器人配置 - 必须正确配置才能使用",
+    "bot_token": "8090428838:AAGqT8s01Rc01ElcyqqIL9A56rvh53-Gw5Y",
+    "_bot_token_help": [
+      "获取方法：",
+      "1. 在Telegram中找到 @BotFather",
+      "2. 发送 /newbot 创建新机器人",
+      "3. 按提示设置机器人名称和用户名",
+      "4. 获得形如 '1234567890:ABCDEFghijklmnop...' 的Token",
+      "5. 将Token填入上面的 bot_token 字段"
+    ],
+    "chat_id": "-1002956622454",
+    "_chat_id_help": [
+      "获取群组ID方法：",
+      "1. 将机器人添加到目标群组",
+      "2. 在群组中发送任意消息",
+      "3. 访问: https://api.telegram.org/8090428838:AAGqT8s01Rc01ElcyqqIL9A56rvh53-Gw5Y/getUpdates",
+      "4. 在返回结果中找到 chat.id 字段（通常是负数）",
+      "5. 将chat_id填入上面字段，注意保留负号"
+    ],
+    "proxy": {
+      "enabled": false,
+      "_proxy_note": "如果服务器无法直接访问Telegram API，需要配置代理 - 当前已启用",
+      "url": "http://47.99.158.118:8080",
+      "_proxy_help": [
+        "代理配置说明：",
+        "1. enabled: true 启用代理，false 禁用代理",
+        "2. url: 代理服务器地址，支持 http/socks5 代理",
+        "3. 格式: http://用户名:密码@代理IP:端口",
+        "4. 可尝试的免费代理:",
+        "   - http://47.96.175.146:8080",
+        "   - http://119.23.66.18:8080",
+        "   - http://47.99.158.118:8080",
+        "5. 本地代理示例: http://127.0.0.1:8080"
+      ]
+    }
+  },
+  "jenkins": {
+    "_comment": "Jenkins服务器连接配置",
+    "url": "http://192.168.9.134:8080",
+    "_url_help": [
+      "Jenkins服务器完整访问地址",
+      "格式: http://IP:端口 或 https://域名",
+      "示例: http://192.168.1.100:8080",
+      "注意: 确保机器人服务器能访问此地址"
+    ],
+    "username": "admin",
+    "_username_help": [
+      "Jenkins登录用户名",
+      "建议使用有构建权限的管理员账户",
+      "或创建专门的机器人账户"
+    ],
+    "password": "qUrcuc-mibrav-0fipnu",
+    "_password_help": [
+      "Jenkins登录密码或API Token（推荐使用API Token）",
+      "获取API Token方法：",
+      "1. 登录Jenkins → 右上角用户名 → Configure",
+      "2. API Token 部分点击 'Add new Token'",
+      "3. 输入Token名称，点击Generate",
+      "4. 复制生成的Token到此处",
+      "注意: API Token比密码更安全"
+    ],
+    "api_timeout": 30,
+    "_api_timeout_help": "Jenkins API调用超时时间（秒），建议20-60秒"
+  },
+  "service": {
+    "_comment": "HTTP服务配置 - 机器人API服务监听设置",
+    "host": "0.0.0.0",
+    "_host_help": [
+      "服务监听地址:",
+      "0.0.0.0 - 监听所有网卡（推荐）",
+      "127.0.0.1 - 仅本地访问",
+      "192.168.x.x - 监听指定网卡"
+    ],
+    "port": 8770,
+    "_port_help": [
+      "服务监听端口，确保端口未被占用",
+      "Jenkins Pipeline中需要调用: http://机器人服务器IP:8770/api/...",
+      "防火墙需要开放此端口供Jenkins访问"
+    ],
+    "debug": false,
+    "_debug_help": "调试模式，生产环境建议设为 false，开发调试时可设为 true"
+  },
+  "logging": {
+    "_comment": "日志配置",
+    "level": "INFO",
+    "_level_help": [
+      "日志级别选项:",
+      "DEBUG - 详细调试信息（开发用）",
+      "INFO - 一般信息（推荐）",
+      "WARNING - 警告信息",
+      "ERROR - 仅错误信息"
+    ],
+    "file_path": "logs/app.log",
+    "_file_path_help": "日志文件保存路径，目录不存在会自动创建"
+  },
+  "database": {
+    "_comment": "数据库配置 - 审批数据持久化存储",
+    "type": "mysql",
+    "_type_help": [
+      "数据库类型选项:",
+      "mysql - MySQL/TiDB数据库（推荐，支持远程连接和分布式）"
+    ],
+    "mysql": {
+      "_comment": "MySQL/TiDB数据库连接配置 - TiDB完全兼容MySQL协议",
+      "host": "localhost",
+      "_host_help": "MySQL/TiDB服务器IP地址",
+      "port": 3306,
+      "_port_help": "端口 - MySQL:3306, TiDB:4000",
+      "database": "jenkins_approval",
+      "_database_help": "数据库名称，需要提前创建",
+      "username": "jenkins_user",
+      "_username_help": "数据库用户名",
+      "password": "jenkins_password_2024",
+      "_password_help": "数据库密码",
+      "charset": "utf8mb4",
+      "_charset_help": "字符集，建议使用utf8mb4支持完整Unicode",
+      "pool_size": 10,
+      "_pool_size_help": "连接池大小",
+      "pool_timeout": 30,
+      "_pool_timeout_help": "连接池获取连接超时时间（秒）"
+    },
+    "connection_timeout": 30,
+    "_connection_timeout_help": "数据库连接超时时间（秒）",
+    "auto_cleanup_days": 30,
+    "_auto_cleanup_days_help": "自动清理多少天前的已完成审批记录，0表示不清理",
+    "backup": {
+      "enabled": false,
+      "_enabled_help": "是否启用数据库备份",
+      "interval_hours": 24,
+      "_interval_hours_help": "备份间隔（小时）",
+      "keep_backups": 7,
+      "_keep_backups_help": "保留备份文件数量",
+      "backup_path": "data/backups",
+      "_backup_path_help": "备份文件存放目录"
+    }
+  },
+  "_usage_notes": [
+    "=== 使用说明 ===",
+    "1. 复制 app.json.example 为 app.json",
+    "2. 按照各字段的 _help 说明填写配置",
+    "3. 重点配置: telegram.bot_token 和 telegram.chat_id",
+    "4. 测试配置: python app.py",
+    "5. 验证服务: 访问 http://IP:8770/test",
+    "",
+    "=== Jenkins Pipeline调用示例 ===",
+    "def apiUrl = 'http://机器人服务器IP:8770/api/stage/approval/wait?project=${JOB_NAME}&env=prod&build=${BUILD_NUMBER}'",
+    "def response = sh(script: \"curl -s '${apiUrl}'\", returnStdout: true)",
+    "",
+    "=== 故障排查 ===",
+    "1. 检查bot_token和chat_id是否正确",
+    "2. 确认机器人已加入目标群组",
+    "3. 检查网络连接和防火墙设置",
+    "4. 查看日志文件获取详细错误信息"
+  ],
+  "approval_settings": {
+    "reminder_interval_minutes": 5,
+    "max_reminders": 6,
+    "approval_timeout_minutes": 30
+  }
+}

@@ -1,0 +1,115 @@
+{
+  "_comment": "Jenkins审批机器人 - 完整配置模板",
+  "_instructions": [
+    "1. 复制此文件为 app.json",
+    "2. 根据实际环境修改各项配置",
+    "3. 删除所有以 _ 开头的注释行（可选）",
+    "4. 确保JSON格式正确"
+  ],
+  
+  "telegram": {
+    "_required": "必需配置 - Telegram机器人设置",
+    "bot_token": "YOUR_BOT_TOKEN_HERE",
+    "_bot_token_help": [
+      "获取方法：",
+      "1. 在Telegram中找到 @BotFather",
+      "2. 发送 /newbot 创建新机器人",
+      "3. 按提示设置机器人名称和用户名",
+      "4. 获得Token，格式如: 1234567890:ABCDEFghijklmnop..."
+    ],
+    "chat_id": "YOUR_CHAT_ID_HERE",
+    "_chat_id_help": [
+      "获取群组ID方法：",
+      "1. 将机器人添加到目标群组",
+      "2. 在群组中发送任意消息",
+      "3. 访问: https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates",
+      "4. 在返回结果中找到 chat.id（通常是负数）"
+    ],
+    "proxy": {
+      "_optional": "可选配置 - 代理设置（如果需要）",
+      "enabled": false,
+      "url": "http://proxy-server:8080"
+    }
+  },
+
+  "jenkins": {
+    "_required": "必需配置 - Jenkins服务器连接设置",
+    "url": "http://your-jenkins-server:8080",
+    "_url_help": "Jenkins服务器完整访问地址，确保机器人服务器能访问",
+    "username": "admin",
+    "_username_help": "Jenkins登录用户名，建议使用有构建权限的账户",
+    "password": "your_password_or_api_token",
+    "_password_help": [
+      "Jenkins登录密码或API Token（推荐使用API Token）",
+      "获取API Token方法：",
+      "1. 登录Jenkins → 右上角用户名 → Configure",
+      "2. API Token 部分点击 'Add new Token'",
+      "3. 输入Token名称，点击Generate",
+      "4. 复制生成的Token到此处"
+    ],
+    "api_timeout": 30
+  },
+
+  "service": {
+    "_required": "必需配置 - HTTP服务监听设置",
+    "host": "0.0.0.0",
+    "_host_help": "服务监听地址: 0.0.0.0-监听所有网卡, 127.0.0.1-仅本地访问",
+    "port": 8770,
+    "_port_help": [
+      "服务监听端口，确保端口未被占用",
+      "Jenkins Pipeline中需要调用: http://机器人服务器IP:8770/api/...",
+      "防火墙需要开放此端口供Jenkins访问"
+    ],
+    "debug": false
+  },
+
+  "database": {
+    "_required": "必需配置 - 数据库连接设置",
+    "type": "mysql",
+    "mysql": {
+      "_required": "MySQL数据库连接参数 - 所有项都是必需的",
+      "host": "localhost",
+      "port": 3306,
+      "database": "jenkins_approval",
+      "username": "jenkins_user",
+      "password": "jenkins_password_2024",
+      "charset": "utf8mb4"
+    },
+    "connection_timeout": 30,
+    "auto_cleanup_days": 30,
+    "backup": {
+      "_optional": "可选配置 - 数据库备份设置",
+      "enabled": false,
+      "interval_hours": 24,
+      "keep_backups": 7,
+      "backup_path": "data/backups"
+    }
+  },
+
+  "logging": {
+    "_required": "必需配置 - 日志设置",
+    "level": "INFO",
+    "_level_options": ["DEBUG", "INFO", "WARNING", "ERROR"],
+    "file_path": "logs/app.log"
+  },
+
+  "approval_settings": {
+    "_optional": "可选配置 - 审批流程设置",
+    "reminder_interval_minutes": 5,
+    "_reminder_help": "提醒间隔（分钟）",
+    "max_reminders": 6,
+    "_max_reminders_help": "最大提醒次数",
+    "approval_timeout_minutes": 30,
+    "_timeout_help": "审批超时时间（分钟）"
+  },
+
+  "_validation_notes": [
+    "=== 配置验证要点 ===",
+    "1. telegram.bot_token 必须是有效的Bot Token",
+    "2. telegram.chat_id 必须是有效的群组ID（负数）",
+    "3. jenkins.url 必须是可访问的Jenkins地址",
+    "4. database.mysql 中的所有连接参数都是必需的",
+    "5. service.port 必须是未占用的端口号",
+    "6. 所有路径配置确保有写入权限"
+  ]
+}

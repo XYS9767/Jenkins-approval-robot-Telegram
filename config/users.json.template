@@ -1,0 +1,51 @@
+{
+  "_comment": "用户权限配置模板",
+  "_instructions": [
+    "1. 复制此文件为 users.json",
+    "2. 根据实际用户修改配置",
+    "3. 删除所有以 _ 开头的注释行（可选）",
+    "4. 确保JSON格式正确"
+  ],
+  
+  "users": {
+    "_required": "必需配置 - 用户列表，至少需要一个用户",
+    "_format_simple": "简洁格式：用户名 -> 角色名",
+    "your_telegram_username": "项目经理",
+    "tech_lead": "技术负责人", 
+    "devops_admin": "运维负责人",
+    
+    "_format_complex": "复杂格式示例（支持更多设置）",
+    "advanced_user": {
+      "role": "高级用户",
+      "projects": ["project1", "project2"],
+      "permissions": ["approve", "reject", "view"],
+      "email": "user@company.com"
+    }
+  },
+
+  "project_mapping": {
+    "_optional": "可选配置 - 项目权限映射",
+    "_help": "定义哪些用户可以审批哪些项目",
+    "webapp": ["your_telegram_username", "tech_lead"],
+    "api": ["tech_lead", "devops_admin"],
+    "backend": ["tech_lead", "devops_admin"],
+    "frontend": ["your_telegram_username", "tech_lead"],
+    "default": ["devops_admin"]
+  },
+
+  "settings": {
+    "_optional": "可选配置 - 审批设置",
+    "approval_timeout_minutes": 30,
+    "reminder_interval_minutes": 5,
+    "max_reminders": 6,
+    "auto_reject_on_timeout": false
+  },
+
+  "_usage_examples": [
+    "=== 使用示例 ===",
+    "1. 简单配置：只需要 users 部分",
+    "2. 高级配置：包含 project_mapping 和 settings",
+    "3. 用户名必须是Telegram用户名（不含@符号）",
+    "4. 角色名可以自定义，建议使用中文便于识别"
+  ]
+}
